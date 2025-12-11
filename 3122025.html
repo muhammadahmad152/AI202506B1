@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>London Bakers and Sweets - Custom</title>
+    <!-- Only Bootstrap for Modal -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* CSS Variables */
+        :root {
+            --primary-green: #154734;
+            --accent-gold: #FFD700;
+            --background-cream: #FFF5EE;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        /* Utility Classes */
+        .text-green {
+            color: var(--primary-green);
+        }
+
+        .text-gold {
+            color: var(--accent-gold);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+            min-height: 80vh;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            position: relative;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .section-header::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-gold);
+            margin: 15px auto 0;
+        }
+
+        /* Navigation - Custom */
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(21, 71, 52, 0.9);
+            padding: 15px 0;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-nav.scrolled {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-nav.scrolled .nav-brand,
+        .main-nav.scrolled .nav-link {
+            color: var(--primary-green);
+        }
+
+        .main-nav.scrolled .nav-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Carousel - Custom */
+        .hero-section {
+            padding-top: 100px;
+            background: linear-gradient(rgba(21, 71, 52, 0.8), rgba(21, 71, 52, 0.8));
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-color: #154734;
+        }
+
+        .carousel-slide:nth-child(1) {
+            background-image: linear-gradient(rgba(21, 71, 52, 0.7), rgba(21, 71, 52, 0.7));
+        }
+
+        .carousel-slide:nth-child(2) {
+            background-image: linear-gradient(rgba(21, 71, 52, 0.7), rgba(21, 71, 52, 0.7));
+        }
+
+        .carousel-slide:nth-child(3) {
+            background-image: linear-gradient(rgba(21, 71, 52, 0.7), rgba(21, 71, 52, 0.7));
+        }
+
+        .carousel-caption {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .carousel-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-description {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .carousel-indicator.active {
+            background: var(--accent-gold);
+            transform: scale(1.2);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent-gold);
+            color: var(--primary-green);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: #e6c200;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-lg {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+        }
+
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Card Styles */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-img {
+            height: 180px;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card-text {
+            color: #666;
+            margin-bottom: 15px;
+            flex-grow: 1;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .card-price {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .card-footer {
+            margin-top: auto;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .events-card {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .events-card h3 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .events-card ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .events-card li {
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: var(--primary-green);
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .contact-info h3,
+        .contact-form h3 {
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-info strong {
+            min-width: 120px;
+            display: inline-block;
+        }
+
+        .contact-info ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .contact-info li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .contact-info li::before {
+            content: '•';
+            color: var(--accent-gold);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: white;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Hampers Section */
+        .hampers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .hamper-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .hamper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .hamper-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hamper-title {
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .hamper-price {
+            color: var(--accent-gold);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .hamper-description {
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        /* Checkout Modal (Using Bootstrap but custom styled) */
+        .checkout-modal .modal-content {
+            max-width: 900px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .checkout-modal .modal-body {
+            padding: 0;
+            display: flex;
+            min-height: 500px;
+        }
+
+        .checkout-form-col {
+            flex: 1;
+            padding: 30px;
+            background: white;
+        }
+
+        .checkout-summary-col {
+            flex: 0.8;
+            background: #f7f7f7;
+            padding: 30px;
+            border-left: 1px solid #eee;
+        }
+
+        .checkout-summary-col h4 {
+            color: var(--primary-green);
+            margin-bottom: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-grand-total {
+            border-top: 2px solid #ccc;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .btn-apply {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-apply:hover {
+            background: #0b2e1f;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .hampers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .carousel-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .main-nav.scrolled .nav-menu {
+                background: white;
+            }
+
+            .nav-menu li {
+                margin: 10px 0;
+            }
+
+            .nav-link {
+                color: var(--primary-green);
+                display: block;
+                padding: 10px;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .carousel-title {
+                font-size: 2rem;
+            }
+
+            .carousel-description {
+                font-size: 1rem;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            }
+
+            section {
+                padding: 60px 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carousel-title {
+                font-size: 1.5rem;
+            }
+
+            .carousel-description {
+                font-size: 0.9rem;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .checkout-modal .modal-body {
+                flex-direction: column;
+            }
+
+            .checkout-summary-col {
+                border-left: none;
+                border-top: 1px solid #eee;
+            }
+
+            .hampers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-container">
+            <a href="#home" class="nav-brand">London Bakers & Sweets</a>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span>☰</span>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#products-sweets" class="nav-link">Sweets</a></li>
+                <li><a href="#products-bakery" class="nav-link">Bakery</a></li>
+                <li><a href="#hampers" class="nav-link">Gift Hampers</a></li>
+                <li><a href="#contact" class="nav-link">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Custom Hero Carousel -->
+    <section class="hero-section" id="home">
+        <div class="hero-carousel">
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <div class="carousel-caption">
+                        <h1 class="carousel-title">Taste the Tradition of London</h1>
+                        <p class="carousel-description">Finest selection of handcrafted sweets and fresh bakery delights.</p>
+                        <a href="#products-sweets" class="btn btn-lg">Explore Our Delights</a>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-caption">
+                        <h1 class="carousel-title">Freshly Baked, Daily</h1>
+                        <p class="carousel-description">From artisanal bread to decadent cakes, find your next craving.</p>
+                        <a href="#products-bakery" class="btn btn-lg">View Bakery Collection</a>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-caption">
+                        <h1 class="carousel-title">Perfect for Gifting</h1>
+                        <p class="carousel-description">Our handcrafted hampers make every occasion special.</p>
+                        <a href="#hampers" class="btn btn-lg">Shop Gift Hampers</a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="carousel-btn prev" id="prevBtn">‹</button>
+            <button class="carousel-btn next" id="nextBtn">›</button>
+            
+            <div class="carousel-indicators" id="carouselIndicators">
+                <button class="carousel-indicator active" data-slide="0"></button>
+                <button class="carousel-indicator" data-slide="1"></button>
+                <button class="carousel-indicator" data-slide="2"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <h2 class="section-header text-green">About Us & Events</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>London Bakers and Sweets was established in 1995 with a mission to bring authentic, high-quality baked goods and traditional sweets to the city. We pride ourselves on using only the finest ingredients, following time-honored recipes.</p>
+                    <p>Our master bakers and confectioners have decades of experience creating delightful treats that bring joy to our customers' special moments.</p>
+                </div>
+                <div class="events-card">
+                    <h3 class="text-green">Upcoming Events</h3>
+                    <ul>
+                        <li>Christmas Baking Workshop (December 10, 2025)</li>
+                        <li>Diwali Sweet Festival (October 15-25, 2025)</li>
+                        <li>Artisan Bread Making Class (Every Saturday)</li>
+                        <li>Kids Baking Camp (Summer 2025)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sweets Section -->
+    <section id="products-sweets" style="background-color: var(--background-cream);">
+        <div class="section-container">
+            <h2 class="section-header text-green">Our Sweets Collection</h2>
+            <div class="card-grid">
+                <!-- Sweet Items (10 items) -->
+                <div class="card">
+                    <div class="card-img">Gulab Jamun Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Classic Gulab Jamun</h3>
+                        <p class="card-price">$8.50</p>
+                        <p class="card-text">Rich milk solids in sugar syrup.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Classic Gulab Jamun" data-item-price="8.50">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">Kaju Katli Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Premium Kaju Katli</h3>
+                        <p class="card-price">$15.00</p>
+                        <p class="card-text">Diamond-cut cashew fudge.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Premium Kaju Katli" data-item-price="15.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add remaining 8 sweet items similarly -->
+                <div class="card">
+                    <div class="card-img">Assorted Mithai Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Assorted Mithai Box</h3>
+                        <p class="card-price">$20.00</p>
+                        <p class="card-text">A mix of our best sellers.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Assorted Mithai Box" data-item-price="20.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">Rasgulla Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Syrupy Rasgulla</h3>
+                        <p class="card-price">$7.00</p>
+                        <p class="card-text">Soft cheese balls in light syrup.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Syrupy Rasgulla" data-item-price="7.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">Laddu Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Traditional Laddu</h3>
+                        <p class="card-price">$10.50</p>
+                        <p class="card-text">Made with Besan and Ghee.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Traditional Laddu" data-item-price="10.50">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bakery Section -->
+    <section id="products-bakery" style="background-color: var(--background-cream);">
+        <div class="section-container">
+            <h2 class="section-header text-green">Our Fresh Bakery Items</h2>
+            <div class="card-grid">
+                <!-- Bakery Items (10 items) -->
+                <div class="card">
+                    <div class="card-img">Chocolate Cake Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Rich Chocolate Cake</h3>
+                        <p class="card-price">$25.00</p>
+                        <p class="card-text">Decadent chocolate ganache.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Rich Chocolate Cake" data-item-price="25.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">Croissant Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Buttery Croissant (6-Pack)</h3>
+                        <p class="card-price">$15.00</p>
+                        <p class="card-text">Flaky, European style.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Buttery Croissant (6-Pack)" data-item-price="15.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-img">Sourdough Image</div>
+                    <div class="card-content">
+                        <h3 class="card-title">Artisan Sourdough Loaf</h3>
+                        <p class="card-price">$6.00</p>
+                        <p class="card-text">Natural, tangy flavor.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-sm btn-full buy-now-btn" data-item-name="Artisan Sourdough Loaf" data-item-price="6.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add remaining bakery items similarly -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Hampers Section -->
+    <section id="hampers">
+        <div class="section-container">
+            <h2 class="section-header text-green">Exclusive Gift Hampers</h2>
+            <div class="hampers-grid">
+                <!-- Hamper Items -->
+                <div class="hamper-card">
+                    <div class="card-img">Luxury Sweet Hamper Image</div>
+                    <div class="hamper-content">
+                        <h3 class="hamper-title">Luxury Sweet Hamper</h3>
+                        <p class="hamper-price">$65.00</p>
+                        <p class="hamper-description">A premium collection of our finest sweets, beautifully packaged.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-full buy-now-btn" data-item-name="Luxury Sweet Hamper" data-item-price="65.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hamper-card">
+                    <div class="card-img">Baker's Delight Box Image</div>
+                    <div class="hamper-content">
+                        <h3 class="hamper-title">The Baker's Delight Box</h3>
+                        <p class="hamper-price">$45.00</p>
+                        <p class="hamper-description">An assortment of our most popular bakery items.</p>
+                        <div class="card-footer">
+                            <button class="btn btn-full buy-now-btn" data-item-name="The Baker's Delight Box" data-item-price="45.00">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Add remaining hampers similarly -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container">
+            <h2 class="section-header text-gold">Get in Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Visit Our Store</h3>
+                    <p><strong>Address:</strong> 123, London Bakers Street, London – 54023</p>
+                    <p><strong>Phone:</strong> +44 20 7123 4567</p>
+                    <p><strong>Email:</strong> info@londonbakers.com</p>
+                    <p><strong>Opening Hours:</strong></p>
+                    <ul>
+                        <li>Monday - Friday: 8:00 AM - 8:00 PM</li>
+                        <li>Saturday: 9:00 AM - 9:00 PM</li>
+                        <li>Sunday: 10:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+                <div class="contact-info">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Your Message" required rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-full">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap Modal (Only Bootstrap component used) -->
+    <div class="modal fade checkout-modal" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 100;"></button>
+                <div class="modal-body">
+                    <div class="checkout-form-col">
+                        <h3 class="text-green mb-4">Checkout</h3>
+                        <div class="d-flex align-items-center mb-3">
+                            <span style="background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 50%; margin-right: 10px;">i</span>
+                            <h5>Delivery Order (Payment is Cash on Delivery Only)</h5>
+                        </div>
+
+                        <form id="orderForm">
+                            <div class="form-group">
+                                <label class="form-label">Quantity / Items <span style="color: red;">*</span></label>
+                                <input type="number" class="form-control" id="itemQuantity" value="1" min="1" required>
+                            </div>
+                            
+                            <hr style="margin: 20px 0;">
+                            
+                            <div class="form-group">
+                                <label class="form-label">Full Name <span style="color: red;">*</span></label>
+                                <input type="text" class="form-control" id="fullName" required>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                <div class="form-group">
+                                    <label class="form-label">Mobile Number <span style="color: red;">*</span></label>
+                                    <input type="tel" class="form-control" id="mobileNumber" placeholder="03XX-XXXXXXX" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Alternate Mobile Number</label>
+                                    <input type="tel" class="form-control" placeholder="03XX-XXXXXXX">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Delivery Address <span style="color: red;">*</span></label>
+                                <textarea class="form-control" id="deliveryAddress" rows="2" placeholder="Enter your complete address" required></textarea>
+                            </div>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                <div class="form-group">
+                                    <label class="form-label">Nearest Landmark</label>
+                                    <input type="text" class="form-control" placeholder="Any famous place nearby">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Delivery Instructions</label>
+                                <textarea class="form-control" rows="1" placeholder="Optional instructions"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-full" style="padding: 15px; font-size: 1.1rem; margin-top: 20px;">Confirm and Place Order</button>
+                        </form>
+                    </div>
+
+                    <div class="checkout-summary-col">
+                        <h4 class="mb-4">Your Order Summary</h4>
+                        
+                        <div id="checkout-item-display" class="mb-3">
+                            <p style="color: #666;">Item details will appear here.</p>
+                        </div>
+
+                        <div class="summary-item"><span>Subtotal (Price * Qty)</span><span id="summary-total-price">$0.00</span></div>
+                        <div class="summary-item" style="color: red;"><span>Delivery Fee</span><span>$5.00</span></div>
+                        <div class="summary-item" style="color: green;"><span>Discount (10%)</span><span id="summary-discount-price">-$0.00</span></div>
+                        
+                        <div class="summary-item summary-grand-total"><span>Grand Total</span><span id="summary-grand-total">$5.00</span></div>
+                        
+                        <div style="display: flex; margin-top: 20px;">
+                            <input type="text" class="form-control" placeholder="Enter Voucher / Promo code" style="margin-right: 10px;">
+                            <button class="btn-apply">Apply</button>
+                        </div>
+
+                        <p style="font-size: 0.9rem; color: #666; margin-top: 20px;">Note: Your order will be confirmed after a confirmation call!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Only Bootstrap JS for Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global Variables
+        let currentItemPrice = 0;
+        let currentItemName = '';
+        const DELIVERY_FEE = 5.00;
+        const DISCOUNT_RATE = 0.10;
+        let currentSlide = 0;
+
+        // Navigation
+        const nav = document.getElementById('mainNav');
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!nav.contains(event.target) && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                // Close mobile menu if open
+                navMenu.classList.remove('active');
+                
+                // Smooth scroll to section
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Carousel Functionality
+        const carouselTrack = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+        // Update carousel position
+        function updateCarousel() {
+            carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        // Next slide
+        nextBtn.addEventListener('click', function() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        });
+
+        // Previous slide
+        prevBtn.addEventListener('click', function() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        });
+
+        // Indicator click
+        indicators.forEach(indicator => {
+            indicator.addEventListener('click', function() {
+                currentSlide = parseInt(this.getAttribute('data-slide'));
+                updateCarousel();
+            });
+        });
+
+        // Auto slide every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }, 5000);
+
+        // Buy Now Buttons
+        document.querySelectorAll('.buy-now-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                currentItemName = this.getAttribute('data-item-name');
+                currentItemPrice = parseFloat(this.getAttribute('data-item-price'));
+                
+                // Set default quantity
+                document.getElementById('itemQuantity').value = 1;
+                
+                // Update summary
+                updateSummary();
+                
+                // Show modal (using Bootstrap)
+                const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+                modal.show();
+            });
+        });
+
+        // Update Order Summary
+        function updateSummary() {
+            const quantity = parseInt(document.getElementById('itemQuantity').value) || 1;
+            const itemPrice = currentItemPrice;
+            
+            const subtotal = itemPrice * quantity;
+            const discount = subtotal * DISCOUNT_RATE;
+            const grandTotal = subtotal + DELIVERY_FEE - discount;
+
+            // Update item display
+            document.getElementById('checkout-item-display').innerHTML = `
+                <p style="margin-bottom: 5px; font-weight: bold;">${quantity} x ${currentItemName}</p>
+                <div class="summary-item"><span>Price per unit</span><span>$${itemPrice.toFixed(2)}</span></div>
+            `;
+
+            // Update totals
+            document.getElementById('summary-total-price').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summary-discount-price').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('summary-grand-total').textContent = `$${grandTotal.toFixed(2)}`;
+        }
+
+        // Quantity change listener
+        document.getElementById('itemQuantity').addEventListener('input', updateSummary);
+
+        // Form Submission
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('fullName').value;
+            const contact = document.getElementById('mobileNumber').value;
+            const address = document.getElementById('deliveryAddress').value;
+            const quantity = document.getElementById('itemQuantity').value;
+            const total = document.getElementById('summary-grand-total').textContent;
+
+            alert(`
+                🎉 Order Confirmed! 🎉
+                
+                Item: ${currentItemName}
+                Quantity: ${quantity}
+                
+                --- Customer Details ---
+                Name: ${name}
+                Contact: ${contact}
+                Address: ${address}
+                
+                --- Payment ---
+                Total Amount Due: ${total} (Cash on Delivery)
+                
+                We will call you shortly on ${contact} for final confirmation.
+            `);
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+            if (modal) {
+                modal.hide();
+            }
+        });
+
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+
+        // Initialize carousel
+        updateCarousel();
+    </script>
+</body>
+</html>
