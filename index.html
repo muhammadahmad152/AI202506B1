@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currency Converter App</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#007BFF">
+
+  <style>
+    
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #007BFF, #00C6FF);
+      margin: 0;
+      display: flex;
+      justify-content: center;f
+      align-items: center;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #007BFF 0%, #00C6FF 100%);
+      color: #222;
+      transition: background 0.4s, color 0.4s;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    .converter {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      width: 95%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    h2 { margin-bottom: 20px; color: #007BFF; }
+    input, select {
+      margin: 10px 0;
+      padding: 12px;
+      width: 90%;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      outline: none;
+      transition: 0.3s;
+    }
+    input:focus, select:focus {
+      border-color: #007BFF;
+      box-shadow: 0 0 6px rgba(0,123,255,0.6);
+    }
+    button {
+      margin: 10px 0;
+      padding: 12px;
+      width: 95%;
+      font-size: 16px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover { background: #0056b3; }
+    #swap { background: #28a745; }
+    #swap:hover { background: #1e7e34; }
+    #result {
+      margin: 15px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    .history {
+      margin-top: 15px;
+      text-align: left;
+      font-size: 14px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .history h4 { margin-bottom: 5px; color: #007BFF; }
+    .history ul { padding-left: 20px; }
+    .history li { margin-bottom: 5px; color: #444; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="converter">
+    <h2>💱 Currency Converter</h2>
+    <input type="number" id="amount" placeholder="Enter amount" oninput="convert()" />
+    <select id="from" onchange="convert()"></select>
+    <select id="to" onchange="convert()"></select>
+    <button id="swap" onclick="swapCurrencies()">🔄 Swap</button>
+    <h3 id="result"></h3>
+    <div class="history">
+      <h4>📜 Conversion History</h4>
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <script>
+    let rates = {};
+    let history = [];
+
+    async function loadCurrencies() {
+      try {
+        let res = await fetch("https://open.er-api.com/v6/latest/USD");
+        let data = await res.json();
+        rates = data.rates;
+
+        let currencyList = Object.keys(rates);
+        let fromSelect = document.getElementById("from");
+        let toSelect = document.getElementById("to");
+
+        currencyList.forEach(curr => {
+          let option1 = document.createElement("option");
+          let option2 = document.createElement("option");
+          option1.value = option2.value = curr;
+          option1.text = option2.text = curr;
+          fromSelect.appendChild(option1);
+          toSelect.appendChild(option2);
+        });
+
+        fromSelect.value = "USD";
+        toSelect.value = "PKR";
+      } catch (error) {
+        alert("Error fetching rates. Check your internet.");
+      }
+    }
+
+    function convert() {
+      let amount = document.getElementById("amount").value;
+      let from = document.getElementById("from").value;
+      let to = document.getElementById("to").value;
+      let result = document.getElementById("result");
+
+      if (!amount || !rates[from] || !rates[to]) {
+        result.innerText = "";
+        return;
+      }
+
+      let usdAmount = amount / rates[from];
+      let converted = usdAmount * rates[to];
+      let text = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+      result.innerText = text;
+
+      addToHistory(text);
+    }
+
+    function swapCurrencies() {
+      let from = document.getElementById("from");
+      let to = document.getElementById("to");
+      let temp = from.value;
+      from.value = to.value;
+      to.value = temp;
+      convert();
+    }
+
+    function addToHistory(entry) {
+      history.unshift(entry);
+      if (history.length > 5) history.pop();
+      let list = document.getElementById("historyList");
+      list.innerHTML = "";
+      history.forEach(item => {
+        let li = document.createElement("li");
+        li.innerText = item;
+        list.appendChild(li);
+      });
+    }
+
+    // Register service worker for PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker Registered"))
+        .catch(err => console.log("❌ SW Error", err));
+    }
+
+    loadCurrencies();
+  </script>
+</body>
+</html>
