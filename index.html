@@ -1,188 +1,147 @@
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Currency Converter App</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#007BFF">
-
-  <style>
-    
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #007BFF, #00C6FF);
-      margin: 0;
-      display: flex;
-      justify-content: center;f
-      align-items: center;
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0;
-      padding: 0;
-      background: linear-gradient(135deg, #007BFF 0%, #00C6FF 100%);
-      color: #222;
-      transition: background 0.4s, color 0.4s;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
-    .converter {
-      background: white;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      width: 95%;
-      max-width: 400px;
-      text-align: center;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    h2 { margin-bottom: 20px; color: #007BFF; }
-    input, select {
-      margin: 10px 0;
-      padding: 12px;
-      width: 90%;
-      font-size: 16px;
-      border: 2px solid #ddd;
-      border-radius: 12px;
-      outline: none;
-      transition: 0.3s;
-    }
-    input:focus, select:focus {
-      border-color: #007BFF;
-      box-shadow: 0 0 6px rgba(0,123,255,0.6);
-    }
-    button {
-      margin: 10px 0;
-      padding: 12px;
-      width: 95%;
-      font-size: 16px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover { background: #0056b3; }
-    #swap { background: #28a745; }
-    #swap:hover { background: #1e7e34; }
-    #result {
-      margin: 15px 0;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-    }
-    .history {
-      margin-top: 15px;
-      text-align: left;
-      font-size: 14px;
-      max-height: 150px;
-      overflow-y: auto;
-    }
-    .history h4 { margin-bottom: 5px; color: #007BFF; }
-    .history ul { padding-left: 20px; }
-    .history li { margin-bottom: 5px; color: #444; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Salt & Stitch — Clothing</title>
+  <meta name="description" content="Modern essentials and seasonal statements. Shop Salt & Stitch." />
+  <meta property="og:title" content="Salt & Stitch — Clothing" />
+  <meta property="og:description" content="Modern essentials and seasonal statements." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="converter">
-    <h2>💱 Currency Converter</h2>
-    <input type="number" id="amount" placeholder="Enter amount" oninput="convert()" />
-    <select id="from" onchange="convert()"></select>
-    <select id="to" onchange="convert()"></select>
-    <button id="swap" onclick="swapCurrencies()">🔄 Swap</button>
-    <h3 id="result"></h3>
-    <div class="history">
-      <h4>📜 Conversion History</h4>
-      <ul id="historyList"></ul>
+  <header class="site-header">
+    <div class="container header-wrap">
+      <a href="/" class="logo">Salt & Stitch</a>
+      <nav class="nav">
+        <a href="#shop">Shop</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="cart-btn" aria-label="Open cart">
+        Cart <span id="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="hero-text">
+          <h1>Wear your every day better</h1>
+          <p>Breathable cottons, tailored fits, and pieces that last beyond the season.</p>
+          <a href="#shop" class="btn">Shop new arrivals</a>
+        </div>
+        <div class="hero-image" role="img" aria-label="Model wearing Salt & Stitch set"></div>
+      </div>
+    </section>
+
+    <section id="shop" class="shop">
+      <div class="container">
+        <div class="shop-header">
+          <h2>New arrivals</h2>
+          <div class="filters">
+            <select id="filter-category" aria-label="Filter by category">
+              <option value="all">All</option>
+              <option value="tops">Tops</option>
+              <option value="bottoms">Bottoms</option>
+              <option value="outerwear">Outerwear</option>
+            </select>
+            <select id="filter-price" aria-label="Filter by price">
+              <option value="all">All prices</option>
+              <option value="under-5k">Under Rs 5,000</option>
+              <option value="5k-10k">Rs 5,000–10,000</option>
+              <option value="over-10k">Over Rs 10,000</option>
+            </select>
+          </div>
+        </div>
+        <div id="product-grid" class="grid"></div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h2>About</h2>
+        <p>Designed in Karachi, made for long wear. We source responsibly and craft in small batches to reduce waste.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <form id="contact-form" class="contact-form">
+          <label>
+            Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="4" required></textarea>
+          </label>
+          <button type="submit" class="btn">Send</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>© <span id="year"></span> Salt & Stitch</p>
+      <div class="footer-links">
+        <a href="#">Shipping</a>
+        <a href="#">Returns</a>
+        <a href="#">Privacy</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product modal -->
+  <div id="product-modal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">×</button>
+      <div class="modal-body">
+        <img id="modal-image" alt="" />
+        <div class="modal-info">
+          <h3 id="modal-title"></h3>
+          <p id="modal-price"></p>
+          <p id="modal-desc"></p>
+          <label class="size-label">
+            Size
+            <select id="modal-size">
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+            </select>
+          </label>
+          <button id="add-to-cart" class="btn">Add to cart</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <script>
-    let rates = {};
-    let history = [];
+  <!-- Cart drawer -->
+  <div id="cart-drawer" class="drawer hidden" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>Your cart</h3>
+      <button class="drawer-close" aria-label="Close">×</button>
+    </div>
+    <div id="cart-items" class="drawer-items"></div>
+    <div class="drawer-footer">
+      <div id="cart-total" class="total">Total: Rs 0</div>
+      <a href="#" class="btn">Checkout</a>
+    </div>
+  </div>
 
-    async function loadCurrencies() {
-      try {
-        let res = await fetch("https://open.er-api.com/v6/latest/USD");
-        let data = await res.json();
-        rates = data.rates;
-
-        let currencyList = Object.keys(rates);
-        let fromSelect = document.getElementById("from");
-        let toSelect = document.getElementById("to");
-
-        currencyList.forEach(curr => {
-          let option1 = document.createElement("option");
-          let option2 = document.createElement("option");
-          option1.value = option2.value = curr;
-          option1.text = option2.text = curr;
-          fromSelect.appendChild(option1);
-          toSelect.appendChild(option2);
-        });
-
-        fromSelect.value = "USD";
-        toSelect.value = "PKR";
-      } catch (error) {
-        alert("Error fetching rates. Check your internet.");
-      }
-    }
-
-    function convert() {
-      let amount = document.getElementById("amount").value;
-      let from = document.getElementById("from").value;
-      let to = document.getElementById("to").value;
-      let result = document.getElementById("result");
-
-      if (!amount || !rates[from] || !rates[to]) {
-        result.innerText = "";
-        return;
-      }
-
-      let usdAmount = amount / rates[from];
-      let converted = usdAmount * rates[to];
-      let text = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
-      result.innerText = text;
-
-      addToHistory(text);
-    }
-
-    function swapCurrencies() {
-      let from = document.getElementById("from");
-      let to = document.getElementById("to");
-      let temp = from.value;
-      from.value = to.value;
-      to.value = temp;
-      convert();
-    }
-
-    function addToHistory(entry) {
-      history.unshift(entry);
-      if (history.length > 5) history.pop();
-      let list = document.getElementById("historyList");
-      list.innerHTML = "";
-      history.forEach(item => {
-        let li = document.createElement("li");
-        li.innerText = item;
-        list.appendChild(li);
-      });
-    }
-
-    // Register service worker for PWA
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("✅ Service Worker Registered"))
-        .catch(err => console.log("❌ SW Error", err));
-    }
-
-    loadCurrencies();
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

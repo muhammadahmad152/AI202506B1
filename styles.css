@@ -1,0 +1,81 @@
+/* styles.css */
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #6b7280;
+  --brand: #111827;
+  --accent: #0ea5e9;
+  --border: #e5e7eb;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Arial, sans-serif; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+.btn { background: var(--brand); color: #fff; padding: 12px 16px; border: none; border-radius: 8px; cursor: pointer; display: inline-block; }
+.btn:hover { background: #000; }
+
+.site-header { border-bottom: 1px solid var(--border); position: sticky; top: 0; backdrop-filter: blur(6px); background: rgba(255,255,255,0.8); z-index: 10; }
+.header-wrap { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+.logo { font-weight: 700; letter-spacing: .5px; }
+.nav a { margin: 0 10px; color: var(--muted); }
+.nav a:hover { color: var(--text); }
+.cart-btn { background: transparent; border: 1px solid var(--border); border-radius: 20px; padding: 8px 14px; cursor: pointer; }
+
+.hero { padding: 40px 0; }
+.hero-wrap { display: grid; grid-template-columns: 1fr; gap: 20px; align-items: center; }
+.hero-text h1 { font-size: 36px; margin: 0 0 10px; }
+.hero-text p { color: var(--muted); margin: 0 0 20px; }
+.hero-image { background: url('https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1200&auto=format&fit=crop') center/cover no-repeat; min-height: 280px; border-radius: 12px; }
+@media (min-width: 900px) {
+  .hero-wrap { grid-template-columns: 1fr 1fr; }
+  .hero-text h1 { font-size: 46px; }
+  .hero-image { min-height: 420px; }
+}
+
+.shop { padding: 20px 0 40px; }
+.shop-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.filters select { padding: 8px; border: 1px solid var(--border); border-radius: 8px; margin-left: 8px; }
+
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (min-width: 900px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #fff; }
+.card-body { padding: 12px; display: grid; gap: 6px; }
+.card-title { font-weight: 600; }
+.card-price { color: var(--muted); }
+.card-actions { display: flex; gap: 8px; }
+.card button { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; }
+.card button.primary { background: var(--brand); color: #fff; border: none; }
+.card button:disabled { opacity: .5; cursor: not-allowed; }
+
+.about, .contact { padding: 20px 0 40px; }
+.contact-form { display: grid; gap: 12px; }
+.contact-form input, .contact-form textarea, .size-label select {
+  width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px;
+}
+
+.site-footer { border-top: 1px solid var(--border); }
+.footer-wrap { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.footer-links a { color: var(--muted); margin-left: 12px; }
+.footer-links a:hover { color: var(--text); }
+
+.modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,0.4); }
+.modal.hidden { display: none; }
+.modal-content { background: #fff; border-radius: 12px; width: min(900px, 92vw); padding: 12px; }
+.modal-body { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.modal-close { background: transparent; border: none; font-size: 24px; cursor: pointer; float: right; }
+.modal-info h3 { margin: 0; }
+@media (min-width: 900px) {
+  .modal-body { grid-template-columns: 1fr 1fr; }
+}
+
+.drawer { position: fixed; inset: 0 0 0 auto; width: min(420px, 92vw); background: #fff; border-left: 1px solid var(--border); display: grid; grid-template-rows: auto 1fr auto; }
+.drawer.hidden { display: none; }
+.drawer-header, .drawer-footer { padding: 12px; border-bottom: 1px solid var(--border); }
+.drawer-items { padding: 12px; display: grid; gap: 12px; }
+.total { font-weight: 600; }
